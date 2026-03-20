@@ -1,0 +1,16 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.vs/
+
+## NuGet
+*.nupkg
+packages/
+
+## IDE
+.idea/
+.vscode/
+*.DotSettings.user

@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Telegram.Bot" Version="22.*" />
+    <PackageReference Include="System.Reactive" Version="6.1.0" />
+  </ItemGroup>
+
+  <!-- Gizmo.Shared: submodule or NuGet -->
+  <ItemGroup Condition="Exists('..\Submodules\Gizmo.Shared\Gizmo.Shared.csproj')">
+    <ProjectReference Include="..\Submodules\Gizmo.Shared\Gizmo.Shared.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="!Exists('..\Submodules\Gizmo.Shared\Gizmo.Shared.csproj')">
+    <PackageReference Include="Gizmo.Shared" Version="1.0.12" />
+  </ItemGroup>
+
+  <!-- Gizmo.Server.Shared: submodule or NuGet -->
+  <ItemGroup Condition="Exists('..\Submodules\Gizmo.Server.Shared\Gizmo.Server.Shared\Gizmo.Server.Shared.csproj')">
+    <ProjectReference Include="..\Submodules\Gizmo.Server.Shared\Gizmo.Server.Shared\Gizmo.Server.Shared.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="!Exists('..\Submodules\Gizmo.Server.Shared\Gizmo.Server.Shared\Gizmo.Server.Shared.csproj')">
+    <PackageReference Include="Gizmo.Server.Shared" Version="1.0.6" />
+  </ItemGroup>
+
+  <!-- Gizmo.Web.Api.Models: submodule or NuGet -->
+  <ItemGroup Condition="Exists('..\Submodules\Gizmo.Web.Api.Models\Gizmo.Web.Api.Models.csproj')">
+    <ProjectReference Include="..\Submodules\Gizmo.Web.Api.Models\Gizmo.Web.Api.Models.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="!Exists('..\Submodules\Gizmo.Web.Api.Models\Gizmo.Web.Api.Models.csproj')">
+    <PackageReference Include="Gizmo.Web.Api.Models" Version="1.0.9" />
+  </ItemGroup>
+
+  <!-- Gizmo.DAL: submodule or NuGet -->
+  <ItemGroup Condition="Exists('..\Submodules\Gizmo.DAL\Gizmo.DAL\Gizmo.DAL.csproj')">
+    <ProjectReference Include="..\Submodules\Gizmo.DAL\Gizmo.DAL\Gizmo.DAL.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="!Exists('..\Submodules\Gizmo.DAL\Gizmo.DAL\Gizmo.DAL.csproj')">
+    <PackageReference Include="Gizmo.DAL" Version="3.0.1" />
+  </ItemGroup>
+
+</Project>
