@@ -16,7 +16,7 @@
     <ProjectReference Include="..\..\Gizmo.Shared\Gizmo.Shared.csproj" />
   </ItemGroup>
   <ItemGroup Condition="!Exists('..\..\Gizmo.Shared\Gizmo.Shared.csproj')">
-    <PackageReference Include="Gizmo.Shared" Version="1.0.12" />
+    <PackageReference Include="Gizmo.Shared" Version="1.0.13" />
   </ItemGroup>
 
   <!-- Gizmo.Server.Shared: sibling submodule or NuGet -->
@@ -24,7 +24,7 @@
     <ProjectReference Include="..\..\Gizmo.Server.Shared\Gizmo.Server.Shared\Gizmo.Server.Shared.csproj" />
   </ItemGroup>
   <ItemGroup Condition="!Exists('..\..\Gizmo.Server.Shared\Gizmo.Server.Shared\Gizmo.Server.Shared.csproj')">
-    <PackageReference Include="Gizmo.Server.Shared" Version="1.0.6" />
+    <PackageReference Include="Gizmo.Server.Shared" Version="1.0.7" />
   </ItemGroup>
 
   <!-- Gizmo.Web.Api.Models: sibling submodule or NuGet -->
@@ -32,7 +32,7 @@
     <ProjectReference Include="..\..\Gizmo.Web.Api.Models\Gizmo.Web.Api.Models.csproj" />
   </ItemGroup>
   <ItemGroup Condition="!Exists('..\..\Gizmo.Web.Api.Models\Gizmo.Web.Api.Models.csproj')">
-    <PackageReference Include="Gizmo.Web.Api.Models" Version="1.0.9" />
+    <PackageReference Include="Gizmo.Web.Api.Models" Version="1.0.10" />
   </ItemGroup>
 
   <!-- Gizmo.DAL: sibling submodule or NuGet -->
