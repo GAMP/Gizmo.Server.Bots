@@ -15,7 +15,8 @@ namespace Gizmo.Server.Bots.Telegram
     [ModuleOptions(typeof(BotOptions))]
     [ModuleMetadata("Telegram bot", "4759f871-42c2-490d-8d75-fc45a60a812c")]
     [MessengerChannel(CommunicationChannels.Telegram)]
-    public sealed class Bot : IModuleStart, IModuleStop, IModuleInitialize, IMessengerVerificationHandler
+    public sealed class Bot : IModuleStart, IModuleStop, IModuleInitialize,
+        IVerificationRedirectHandler, IVerificationCodeDispatchHandler, ICanProvidePhone
     {
         #region CONSTRUCTOR
 
@@ -24,7 +25,7 @@ namespace Gizmo.Server.Bots.Telegram
             ModuleContext moduleContext,
             IOptionsMonitor<BotOptions> options,
             IMessageSubscriber subscriber,
-            IMessengerVerificationCallback verificationCallback)
+            IVerificationCallback verificationCallback)
         {
             _contextProvider = contextProvider;
             _logger = logger;
@@ -49,7 +50,7 @@ namespace Gizmo.Server.Bots.Telegram
         private readonly ModuleContext _moduleContext;
         private readonly IOptionsMonitor<BotOptions> _options;
         private readonly IMessageSubscriber _subscriber;
-        private readonly IMessengerVerificationCallback _verificationCallback;
+        private readonly IVerificationCallback _verificationCallback;
         private IDisposable? _subscription;
 
         private TelegramBotClient? _botClient;
@@ -64,9 +65,9 @@ namespace Gizmo.Server.Bots.Telegram
         };
 
         /// <summary>
-        /// Pending link nonces. Maps nonce → pending link state.
+        /// Pending link nonces. Maps nonce → token value.
         /// </summary>
-        private readonly ConcurrentDictionary<string, PendingLink> _pendingLinks = new();
+        private readonly ConcurrentDictionary<string, string> _pendingLinks = new();
 
         /// <summary>
         /// Pending contact shares. Maps chatId → pending verification state (waiting for user to share phone number).
@@ -110,65 +111,51 @@ namespace Gizmo.Server.Bots.Telegram
 
         #endregion
 
-        #region IMessengerVerificationHandler
+        #region IVerificationRedirectHandler
 
-        public Task<MessagingLinkResult> CreateVerificationLinkAsync(CreateVerificationLinkContext context, CancellationToken cancellationToken = default)
+        public Task<VerificationRedirectResult> CreateRedirectUrlAsync(CreateRedirectUrlContext context, CancellationToken cancellationToken = default)
         {
             var nonce = Guid.NewGuid().ToString("N");
 
-            _pendingLinks[nonce] = new PendingLink(context.TokenValue, ConfirmationCode: null);
+            _pendingLinks[nonce] = context.TokenValue;
 
             var botUsername = _botUsername
-                ?? throw new InvalidOperationException("Telegram bot is not connected. Cannot create verification link.");
+                ?? throw new InvalidOperationException("Telegram bot is not connected. Cannot create redirect URL.");
 
-            return Task.FromResult(new MessagingLinkResult
+            return Task.FromResult(new VerificationRedirectResult
             {
-                LinkUrl = $"https://t.me/{botUsername}?start={nonce}",
-                Nonce = nonce,
+                RedirectUrl = $"https://t.me/{botUsername}?start={nonce}",
                 ExpiresInSeconds = 300,
             });
         }
 
-        public Task<MessagingLinkResult> CreateRegistrationLinkAsync(CreateRegistrationLinkContext context, CancellationToken cancellationToken = default)
-        {
-            var nonce = Guid.NewGuid().ToString("N");
+        #endregion
 
-            _pendingLinks[nonce] = new PendingLink(context.TokenValue, context.ConfirmationCode);
+        #region IVerificationCodeDispatchHandler
 
-            var botUsername = _botUsername
-                ?? throw new InvalidOperationException("Telegram bot is not connected. Cannot create registration link.");
-
-            return Task.FromResult(new MessagingLinkResult
-            {
-                LinkUrl = $"https://t.me/{botUsername}?start={nonce}",
-                Nonce = nonce,
-                ExpiresInSeconds = 300,
-            });
-        }
-
-        public async Task<bool> SendConfirmationCodeAsync(SendConfirmationCodeContext context, CancellationToken cancellationToken = default)
+        public async Task<SendCodeResult> SendCodeAsync(SendCodeContext context, CancellationToken cancellationToken = default)
         {
             if (_botClient is null)
             {
                 _logger.LogWarning("Cannot send confirmation code: Telegram bot client is not initialized.");
-                return false;
+                return SendCodeResult.Error;
             }
 
-            if (!long.TryParse(context.RecipientAddress, out var chatId))
+            if (!long.TryParse(context.ChannelValue, out var chatId))
             {
-                _logger.LogWarning("Invalid recipient address (not a valid chat ID): {Address}.", context.RecipientAddress);
-                return false;
+                _logger.LogWarning("Invalid channel value (not a valid chat ID): {Value}.", context.ChannelValue);
+                return SendCodeResult.Error;
             }
 
             try
             {
-                await _botClient.SendMessage(chatId, $"Your confirmation code: {context.ConfirmationCode}", cancellationToken: cancellationToken);
-                return true;
+                await _botClient.SendMessage(chatId, $"Your confirmation code: {context.Code}", cancellationToken: cancellationToken);
+                return SendCodeResult.Sent;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to send confirmation code to chat {ChatId}.", chatId);
-                return false;
+                return SendCodeResult.Error;
             }
         }
 
@@ -321,60 +308,33 @@ namespace Gizmo.Server.Bots.Telegram
 
         /// <summary>
         /// Called when Telegram bot receives /start {nonce} from a user.
+        /// Always asks for phone number sharing via contact button.
         /// </summary>
         private async Task HandleStartCommandAsync(string nonce, long chatId, User? user,
             CancellationToken cancellationToken = default)
         {
-            if (!_pendingLinks.TryRemove(nonce, out var link))
+            if (!_pendingLinks.TryRemove(nonce, out var tokenValue))
             {
                 _logger.LogWarning("Unknown or expired nonce received: {Nonce}.", nonce);
                 return;
             }
 
-            if (link.ConfirmationCode != null)
+            // store pending contact — wait for user to share phone number
+            _pendingContacts[chatId] = new PendingContact(tokenValue, user);
+
+            if (_botClient is not null)
             {
-                // registration flow — send code and complete immediately
-                if (_botClient is not null)
+                var keyboard = new ReplyKeyboardMarkup(
+                    new KeyboardButton[] { KeyboardButton.WithRequestContact("Share phone number") })
                 {
-                    try
-                    {
-                        await _botClient.SendMessage(chatId, $"Your confirmation code: {link.ConfirmationCode}", cancellationToken: cancellationToken);
-                        _logger.LogInformation("Confirmation code sent to chatId {ChatId}.", chatId);
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex, "Failed to send confirmation code to chatId {ChatId}.", chatId);
-                    }
-                }
+                    OneTimeKeyboard = true,
+                    ResizeKeyboard = true,
+                };
 
-                var metadata = BuildMetadata(user, phoneNumber: null);
-
-                await _verificationCallback.OnCallbackAsync(new MessengerRegistrationCallbackResult
-                {
-                    TokenValue = link.TokenValue,
-                    RecipientAddress = chatId.ToString(),
-                    Metadata = metadata,
-                }, cancellationToken);
-            }
-            else
-            {
-                // verification flow — ask user to share phone number
-                _pendingContacts[chatId] = new PendingContact(link.TokenValue, user);
-
-                if (_botClient is not null)
-                {
-                    var keyboard = new ReplyKeyboardMarkup(
-                        new KeyboardButton[] { KeyboardButton.WithRequestContact("Share phone number") })
-                    {
-                        OneTimeKeyboard = true,
-                        ResizeKeyboard = true,
-                    };
-
-                    await _botClient.SendMessage(chatId,
-                        "Please share your phone number to complete verification.",
-                        replyMarkup: keyboard,
-                        cancellationToken: cancellationToken);
-                }
+                await _botClient.SendMessage(chatId,
+                    "Please share your phone number to complete verification.",
+                    replyMarkup: keyboard,
+                    cancellationToken: cancellationToken);
             }
         }
 
@@ -400,7 +360,7 @@ namespace Gizmo.Server.Bots.Telegram
                     cancellationToken: cancellationToken);
             }
 
-            await _verificationCallback.OnCallbackAsync(new MessengerVerificationCallbackResult
+            await _verificationCallback.OnCallbackAsync(new VerificationCallbackResult
             {
                 TokenValue = pending.TokenValue,
                 RecipientAddress = chatId.ToString(),
@@ -408,19 +368,19 @@ namespace Gizmo.Server.Bots.Telegram
             }, cancellationToken);
         }
 
-        private static Dictionary<MessengerCallbackMetadataKey, string> BuildMetadata(User? user, string? phoneNumber)
+        private static Dictionary<VerificationCallbackMetadataKey, string> BuildMetadata(User? user, string? phoneNumber)
         {
-            var metadata = new Dictionary<MessengerCallbackMetadataKey, string>
+            var metadata = new Dictionary<VerificationCallbackMetadataKey, string>
             {
-                [MessengerCallbackMetadataKey.ChannelType] = CommunicationChannels.Telegram,
+                [VerificationCallbackMetadataKey.ChannelType] = CommunicationChannels.Telegram,
             };
 
             if (!string.IsNullOrEmpty(user?.FirstName))
-                metadata[MessengerCallbackMetadataKey.FirstName] = user.FirstName;
+                metadata[VerificationCallbackMetadataKey.FirstName] = user.FirstName;
             if (!string.IsNullOrEmpty(user?.LastName))
-                metadata[MessengerCallbackMetadataKey.LastName] = user.LastName;
+                metadata[VerificationCallbackMetadataKey.LastName] = user.LastName;
             if (!string.IsNullOrEmpty(phoneNumber))
-                metadata[MessengerCallbackMetadataKey.PhoneNumber] = phoneNumber;
+                metadata[VerificationCallbackMetadataKey.PhoneNumber] = phoneNumber;
 
             return metadata;
         }
@@ -431,7 +391,6 @@ namespace Gizmo.Server.Bots.Telegram
             return Task.CompletedTask;
         }
 
-        private sealed record PendingLink(string TokenValue, string? ConfirmationCode);
         private sealed record PendingContact(string TokenValue, User? User);
 
         #endregion
