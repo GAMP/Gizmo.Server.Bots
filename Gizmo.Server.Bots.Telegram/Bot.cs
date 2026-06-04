@@ -1,5 +1,7 @@
 using System.Collections.Concurrent;
+using System.ComponentModel.DataAnnotations;
 using Gizmo.Extensibility.Abstractions;
+using Gizmo.Server.Bots.Telegram.Localization;
 using Gizmo.Server.Extensibility;
 using Gizmo.Web.Api.Messaging;
 using Microsoft.Extensions.Logging;
@@ -14,6 +16,8 @@ namespace Gizmo.Server.Bots.Telegram
 {
     [ModuleOptions(typeof(BotOptions))]
     [ModuleMetadata("Telegram bot", "4759f871-42c2-490d-8d75-fc45a60a812c")]
+    [Name("Telegram bot", nameof(Resources.TELEGRAM_BOT_MODULE_NAME))]
+    [ExtendedDescription("Telegram messenger integration for user verification and notifications.", nameof(Resources.TELEGRAM_BOT_MODULE_DESCRIPTION))]
     [MessengerChannel(CommunicationChannels.Telegram)]
     public sealed class Bot : IModuleStart, IModuleStop, IModuleInitialize,
         IVerificationRedirectHandler, IVerificationCodeDispatchHandler, ICanProvidePhone

@@ -11,6 +11,23 @@
     <PackageReference Include="System.Reactive" Version="6.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Resources\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Resources.resx">
+      <SubType>Designer</SubType>
+      <CustomToolNamespace>Gizmo.Server.Bots.Telegram.Localization</CustomToolNamespace>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
   <!-- Gizmo.Shared: sibling submodule or NuGet -->
   <ItemGroup Condition="Exists('..\..\Gizmo.Shared\Gizmo.Shared.csproj')">
     <ProjectReference Include="..\..\Gizmo.Shared\Gizmo.Shared.csproj" />
