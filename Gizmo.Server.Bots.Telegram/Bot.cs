@@ -153,7 +153,9 @@ namespace Gizmo.Server.Bots.Telegram
 
             try
             {
-                await _botClient.SendMessage(chatId, $"Your confirmation code: {context.Code}", cancellationToken: cancellationToken);
+                var message = ReplaceCodeToken(_options.CurrentValue.ConfirmationCodeMessage!, context.Code);
+
+                await _botClient.SendMessage(chatId, message, cancellationToken: cancellationToken);
                 return SendCodeResult.Sent;
             }
             catch (Exception ex)
@@ -328,15 +330,19 @@ namespace Gizmo.Server.Bots.Telegram
 
             if (_botClient is not null)
             {
+                var options = _options.CurrentValue;
+                var buttonLabel = options.ShareContactButtonLabel!;
+                var promptMessage = options.SharePhonePromptMessage!;
+
                 var keyboard = new ReplyKeyboardMarkup(
-                    new KeyboardButton[] { KeyboardButton.WithRequestContact("Share phone number") })
+                    new KeyboardButton[] { KeyboardButton.WithRequestContact(buttonLabel) })
                 {
                     OneTimeKeyboard = true,
                     ResizeKeyboard = true,
                 };
 
                 await _botClient.SendMessage(chatId,
-                    "Please share your phone number to complete verification.",
+                    promptMessage,
                     replyMarkup: keyboard,
                     cancellationToken: cancellationToken);
             }
@@ -358,8 +364,10 @@ namespace Gizmo.Server.Bots.Telegram
             // remove the keyboard
             if (_botClient is not null)
             {
+                var completeMessage = _options.CurrentValue.VerificationCompleteMessage!;
+
                 await _botClient.SendMessage(chatId,
-                    "Thank you! Verification complete.",
+                    completeMessage,
                     replyMarkup: new ReplyKeyboardRemove(),
                     cancellationToken: cancellationToken);
             }
@@ -387,6 +395,11 @@ namespace Gizmo.Server.Bots.Telegram
                 metadata[VerificationCallbackMetadataKey.PhoneNumber] = phoneNumber;
 
             return metadata;
+        }
+
+        private static string ReplaceCodeToken(string template, string code)
+        {
+            return template.Replace("{code}", code, StringComparison.OrdinalIgnoreCase);
         }
 
         private Task ProcessMessageAsync(IAPIEventMessage eventMessage, CancellationToken cancellationToken)

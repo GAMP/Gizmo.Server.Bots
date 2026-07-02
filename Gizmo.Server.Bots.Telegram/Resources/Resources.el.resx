@@ -70,4 +70,28 @@
   <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_API_KEY" xml:space="preserve">
     <value>Καθορίστε το κλειδί API για το bot του Telegram.</value>
   </data>
+  <data name="TELEGRAM_BOT_OPTION_NAME_CONFIRMATION_CODE_MESSAGE" xml:space="preserve">
+    <value>Μήνυμα κωδικού επιβεβαίωσης</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_CONFIRMATION_CODE_MESSAGE" xml:space="preserve">
+    <value>Μήνυμα που αποστέλλεται με τον κωδικό επαλήθευσης. Χρησιμοποιήστε το διακριτικό {code} για να συμπεριλάβετε τον κωδικό.</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_NAME_SHARE_PHONE_MESSAGE" xml:space="preserve">
+    <value>Μήνυμα κοινοποίησης τηλεφώνου</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_SHARE_PHONE_MESSAGE" xml:space="preserve">
+    <value>Μήνυμα που ζητά από τον χρήστη να κοινοποιήσει τον αριθμό τηλεφώνου του για να ολοκληρωθεί η επαλήθευση.</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_NAME_VERIFICATION_COMPLETE_MESSAGE" xml:space="preserve">
+    <value>Μήνυμα ολοκλήρωσης επαλήθευσης</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_VERIFICATION_COMPLETE_MESSAGE" xml:space="preserve">
+    <value>Μήνυμα που αποστέλλεται στον χρήστη όταν ολοκληρωθεί η επαλήθευση.</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_NAME_SHARE_CONTACT_BUTTON_LABEL" xml:space="preserve">
+    <value>Ετικέτα κουμπιού επικοινωνίας</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_SHARE_CONTACT_BUTTON_LABEL" xml:space="preserve">
+    <value>Ετικέτα για το κουμπί που χρησιμοποιείται για την αίτηση του αριθμού τηλεφώνου του χρήστη.</value>
+  </data>
 </root>
