@@ -70,4 +70,28 @@
   <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_API_KEY" xml:space="preserve">
     <value>Specify the API key for the Telegram bot.</value>
   </data>
+  <data name="TELEGRAM_BOT_OPTION_NAME_CONFIRMATION_CODE_MESSAGE" xml:space="preserve">
+    <value>Confirmation code message</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_CONFIRMATION_CODE_MESSAGE" xml:space="preserve">
+    <value>Message sent with the verification code. Use the {code} token to include the code.</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_NAME_SHARE_PHONE_MESSAGE" xml:space="preserve">
+    <value>Share phone prompt</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_SHARE_PHONE_MESSAGE" xml:space="preserve">
+    <value>Message asking the user to share their phone number to complete verification.</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_NAME_VERIFICATION_COMPLETE_MESSAGE" xml:space="preserve">
+    <value>Verification complete message</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_VERIFICATION_COMPLETE_MESSAGE" xml:space="preserve">
+    <value>Message sent to the user once verification is complete.</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_NAME_SHARE_CONTACT_BUTTON_LABEL" xml:space="preserve">
+    <value>Contact button label</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_SHARE_CONTACT_BUTTON_LABEL" xml:space="preserve">
+    <value>Label for the button used to request the user's phone number.</value>
+  </data>
 </root>

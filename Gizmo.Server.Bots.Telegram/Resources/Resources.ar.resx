@@ -70,4 +70,28 @@
   <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_API_KEY" xml:space="preserve">
     <value>حدد مفتاح API لبوت تيليجرام.</value>
   </data>
+  <data name="TELEGRAM_BOT_OPTION_NAME_CONFIRMATION_CODE_MESSAGE" xml:space="preserve">
+    <value>رسالة رمز التأكيد</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_CONFIRMATION_CODE_MESSAGE" xml:space="preserve">
+    <value>الرسالة المرسلة مع رمز التحقق. استخدم الرمز {code} لتضمين الرمز.</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_NAME_SHARE_PHONE_MESSAGE" xml:space="preserve">
+    <value>رسالة مشاركة الهاتف</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_SHARE_PHONE_MESSAGE" xml:space="preserve">
+    <value>رسالة تطلب من المستخدم مشاركة رقم هاتفه لإكمال التحقق.</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_NAME_VERIFICATION_COMPLETE_MESSAGE" xml:space="preserve">
+    <value>رسالة اكتمال التحقق</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_VERIFICATION_COMPLETE_MESSAGE" xml:space="preserve">
+    <value>رسالة تُرسل إلى المستخدم عند اكتمال التحقق.</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_NAME_SHARE_CONTACT_BUTTON_LABEL" xml:space="preserve">
+    <value>تسمية زر جهة الاتصال</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_SHARE_CONTACT_BUTTON_LABEL" xml:space="preserve">
+    <value>تسمية الزر المستخدم لطلب رقم هاتف المستخدم.</value>
+  </data>
 </root>

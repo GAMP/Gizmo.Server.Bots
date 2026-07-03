@@ -70,4 +70,28 @@
   <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_API_KEY" xml:space="preserve">
     <value>Angiv API-nøglen til Telegram-botten.</value>
   </data>
+  <data name="TELEGRAM_BOT_OPTION_NAME_CONFIRMATION_CODE_MESSAGE" xml:space="preserve">
+    <value>Bekræftelseskodebesked</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_CONFIRMATION_CODE_MESSAGE" xml:space="preserve">
+    <value>Besked sendt med bekræftelseskoden. Brug {code}-tokenet til at indsætte koden.</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_NAME_SHARE_PHONE_MESSAGE" xml:space="preserve">
+    <value>Besked om deling af telefonnummer</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_SHARE_PHONE_MESSAGE" xml:space="preserve">
+    <value>Besked, der beder brugeren om at dele sit telefonnummer for at fuldføre bekræftelsen.</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_NAME_VERIFICATION_COMPLETE_MESSAGE" xml:space="preserve">
+    <value>Besked om gennemført bekræftelse</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_VERIFICATION_COMPLETE_MESSAGE" xml:space="preserve">
+    <value>Besked, der sendes til brugeren, når bekræftelsen er gennemført.</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_NAME_SHARE_CONTACT_BUTTON_LABEL" xml:space="preserve">
+    <value>Kontaktknapetiket</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_SHARE_CONTACT_BUTTON_LABEL" xml:space="preserve">
+    <value>Etiket til knappen, der bruges til at anmode om brugerens telefonnummer.</value>
+  </data>
 </root>

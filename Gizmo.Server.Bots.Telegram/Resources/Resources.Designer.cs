@@ -86,6 +86,42 @@ namespace Gizmo.Server.Bots.Telegram.Localization {
                 return ResourceManager.GetString("TELEGRAM_BOT_OPTION_DESCRIPTION_API_KEY", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Message sent with the verification code. Use the {code} token to include the code..
+        /// </summary>
+        public static string TELEGRAM_BOT_OPTION_DESCRIPTION_CONFIRMATION_CODE_MESSAGE {
+            get {
+                return ResourceManager.GetString("TELEGRAM_BOT_OPTION_DESCRIPTION_CONFIRMATION_CODE_MESSAGE", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Label for the button used to request the user's phone number..
+        /// </summary>
+        public static string TELEGRAM_BOT_OPTION_DESCRIPTION_SHARE_CONTACT_BUTTON_LABEL {
+            get {
+                return ResourceManager.GetString("TELEGRAM_BOT_OPTION_DESCRIPTION_SHARE_CONTACT_BUTTON_LABEL", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Message asking the user to share their phone number to complete verification..
+        /// </summary>
+        public static string TELEGRAM_BOT_OPTION_DESCRIPTION_SHARE_PHONE_MESSAGE {
+            get {
+                return ResourceManager.GetString("TELEGRAM_BOT_OPTION_DESCRIPTION_SHARE_PHONE_MESSAGE", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Message sent to the user once verification is complete..
+        /// </summary>
+        public static string TELEGRAM_BOT_OPTION_DESCRIPTION_VERIFICATION_COMPLETE_MESSAGE {
+            get {
+                return ResourceManager.GetString("TELEGRAM_BOT_OPTION_DESCRIPTION_VERIFICATION_COMPLETE_MESSAGE", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to Bot API key.
@@ -93,6 +129,42 @@ namespace Gizmo.Server.Bots.Telegram.Localization {
         public static string TELEGRAM_BOT_OPTION_NAME_API_KEY {
             get {
                 return ResourceManager.GetString("TELEGRAM_BOT_OPTION_NAME_API_KEY", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Confirmation code message.
+        /// </summary>
+        public static string TELEGRAM_BOT_OPTION_NAME_CONFIRMATION_CODE_MESSAGE {
+            get {
+                return ResourceManager.GetString("TELEGRAM_BOT_OPTION_NAME_CONFIRMATION_CODE_MESSAGE", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Contact button label.
+        /// </summary>
+        public static string TELEGRAM_BOT_OPTION_NAME_SHARE_CONTACT_BUTTON_LABEL {
+            get {
+                return ResourceManager.GetString("TELEGRAM_BOT_OPTION_NAME_SHARE_CONTACT_BUTTON_LABEL", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Share phone prompt.
+        /// </summary>
+        public static string TELEGRAM_BOT_OPTION_NAME_SHARE_PHONE_MESSAGE {
+            get {
+                return ResourceManager.GetString("TELEGRAM_BOT_OPTION_NAME_SHARE_PHONE_MESSAGE", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Verification complete message.
+        /// </summary>
+        public static string TELEGRAM_BOT_OPTION_NAME_VERIFICATION_COMPLETE_MESSAGE {
+            get {
+                return ResourceManager.GetString("TELEGRAM_BOT_OPTION_NAME_VERIFICATION_COMPLETE_MESSAGE", resourceCulture);
             }
         }
     }

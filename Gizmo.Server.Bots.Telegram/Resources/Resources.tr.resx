@@ -70,4 +70,28 @@
   <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_API_KEY" xml:space="preserve">
     <value>Telegram botu için API anahtarını belirtin.</value>
   </data>
+  <data name="TELEGRAM_BOT_OPTION_NAME_CONFIRMATION_CODE_MESSAGE" xml:space="preserve">
+    <value>Onay kodu mesajı</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_CONFIRMATION_CODE_MESSAGE" xml:space="preserve">
+    <value>Doğrulama koduyla gönderilen mesaj. Kodu eklemek için {code} belirtecini kullanın.</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_NAME_SHARE_PHONE_MESSAGE" xml:space="preserve">
+    <value>Telefon paylaşım istemi</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_SHARE_PHONE_MESSAGE" xml:space="preserve">
+    <value>Kullanıcıdan doğrulamayı tamamlamak için telefon numarasını paylaşmasını isteyen mesaj.</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_NAME_VERIFICATION_COMPLETE_MESSAGE" xml:space="preserve">
+    <value>Doğrulama tamamlandı mesajı</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_VERIFICATION_COMPLETE_MESSAGE" xml:space="preserve">
+    <value>Doğrulama tamamlandığında kullanıcıya gönderilen mesaj.</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_NAME_SHARE_CONTACT_BUTTON_LABEL" xml:space="preserve">
+    <value>İletişim düğmesi etiketi</value>
+  </data>
+  <data name="TELEGRAM_BOT_OPTION_DESCRIPTION_SHARE_CONTACT_BUTTON_LABEL" xml:space="preserve">
+    <value>Kullanıcının telefon numarasını istemek için kullanılan düğmenin etiketi.</value>
+  </data>
 </root>
